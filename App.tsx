@@ -1,118 +1,68 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import React from 'react'; 
+import {Text, Image, ImageBackground, View, StyleSheet} from 'react-native'; 
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
-
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+const App = () => {
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
+    <View style={styles.pageContainer}>
+      <View style={styles.card}>
+        <ImageBackground        //Use to add text on top of pic
+          source={{
+            uri: 'https://imageio.forbes.com/specials-images/imageserve/6532a388407b720effdbd589/0x0.jpg?format=jpg&height=900&width=1600&fit=bounds'
+          }}
+          style={styles.image}>
+          <View style={styles.cardInner}>           {/* Add margins */}
+            <Text style={styles.name}>Rosa Parks</Text>
+            <Text style={styles.bio}>Lorem ipsum dolor sit amet consectetur adipisicing elit.</Text>
+          </View>
+        </ImageBackground>       {/*Can now add anything I want on top of pic */}
+      </View>
     </View>
   );
-}
-
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-}
+};
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  pageContainer: {            //adjust where pic is
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    flex: 1
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
+  card: {
+    width: '90%',             //% of screen that pic takes up 
+    height: '70%',
+    borderRadius: 10,         //corner curvature
+    shadowColor: "#000",      //shadow (react native shadow generator)
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    shadowOpacity: 0.4,
+    shadowRadius: 8.30,
+
+    elevation: 13,
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
+  image: {
+    width: '100%',            //How much of the card style is actually filled 
+    height: '100%',
+    borderRadius: 10,  
+    overflow: 'hidden',
+    
+    justifyContent: 'flex-end', 
+
   },
-  highlight: {
-    fontWeight: '700',
+  cardInner:{                 //Add margins
+    padding: 10,
   },
+  name:{                      //Styles the name
+    fontSize: 30, 
+    color: 'white', 
+    fontWeight: 'bold', 
+  }, 
+  bio: {                      //Styles the bio
+    fontSize: 15, 
+    color: 'white', 
+    lineHeight: 25, 
+  }
 });
 
-export default App;
+export default App; 
+
