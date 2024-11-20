@@ -7,7 +7,7 @@ import users from './assets/data/users'
 const App = () => {
   return (
     <View style={styles.pageContainer}>
-      <Card user={users[3]} />          {/* Component created here and then moved all code to index.js in GymPalCard */}                 
+      <Card user={users[2]} />          {/* Component created here and then moved all code to index.js in GymPalCard */}                 
     </View>
   );
 };
