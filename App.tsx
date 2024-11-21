@@ -1,24 +1,31 @@
 import React from 'react'; 
-import { View, StyleSheet} from 'react-native'; 
-import Card from './src/component/GymPalCard';        //component path
-import users from './assets/data/users'
+import {NavigationContainer} from "@react-navigation/native";   //Navigation container for the app
+import {createStackNavigator} from '@react-navigation/stack';   //Stack navigator for screen transitions
+import HomeScreen from './src/screens/HomeScreen';  //import HomeScreen component
+import ProfileScreen from './src/screens/ProfileScreen';  //import ProfileScreen component
+import{SafeAreaProvider} from 'react-native-safe-area-context'; 
 
+const Stack = createStackNavigator(); 
 
 const App = () => {
   return (
-    <View style={styles.pageContainer}>
-      <Card user={users[2]} />          {/* Component created here and then moved all code to index.js in GymPalCard */}                 
-    </View>
-  );
-};
-
-const styles = StyleSheet.create({
-  pageContainer: {            //adjust where pic is
-    justifyContent: 'center', 
-    alignItems: 'center', 
-    flex: 1
-  },
-});
+    <SafeAreaProvider>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Home"
+            component={HomeScreen}
+            options={{headerShown: false}} //hides header for the home screen
+          />
+          <Stack.Screen
+            name="Profile"
+            component={ProfileScreen}
+            options={{headerShown: false}}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </SafeAreaProvider>
+  )
+}
 
 export default App; 
-
