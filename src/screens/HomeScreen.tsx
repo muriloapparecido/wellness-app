@@ -1,5 +1,5 @@
 import React from 'react'; 
-import { View, StyleSheet, Text, Dimensions, ImageBackground, Button} from 'react-native';     //component path
+import { View, StyleSheet, Text, Dimensions, ImageBackground, Button, Image} from 'react-native';     //component path
 import users from '../../assets/data/users.js';           //dummy data
 import Animated, {
   useSharedValue,         //Shared value to track animated state
@@ -8,6 +8,7 @@ import Animated, {
 } from 'react-native-reanimated'
 import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native'; 
+import { Colors } from '../styling/colors'; 
 
 //Screen dimensions
 const {width, height} = Dimensions.get('window'); 
@@ -78,33 +79,43 @@ type User = {
 
   return (
     <View style={styles.container}>
-    {/* Profile button */}
-    <Button 
-      title="Go to Profile" 
-      onPress={() => navigation.navigate('Profile')}  //Navigate to Profile screen
-    />
+        {/* Header */}
+        <View style={styles.header}>
+            <Image
+              source={require('../styling/umich-logo.png')}
+              style={styles.logo}
+            />
+            <Text style={styles.headerText}>GymPal</Text>
+        </View>
 
-    {/* Render cards */}
-    {users
-      .slice(0,1) //Only render the top two cards
-      .reverse()  //Reverse to show top card last
-      .map((user,index) => {
-        if (index< userIndex.value) return null; //skips cards that have been swiped
-        const isTopCard = index == userIndex.value; //Allows top card to be interactive
+        {/* Profile button */}
+        <Button 
+        title="Go to Profile" 
+        onPress={() => navigation.navigate('Profile')}  //Navigate to Profile screen
+        color='#02274C'
+        />
 
-        return (
-            <GestureDetector 
-                key={user.id} 
-                gesture={isTopCard ? gesture : Gesture.Simultaneous()}
-            >
-                <Animated.View 
-                    style={[styles.card, isTopCard && animatedStyle]}                
+        {/* Render cards */}
+        {users
+        .slice(0,1) //Only render the top two cards
+        .reverse()  //Reverse to show top card last
+        .map((user,index) => {
+            if (index< userIndex.value) return null; //skips cards that have been swiped
+            const isTopCard = index == userIndex.value; //Allows top card to be interactive
+
+            return (
+                <GestureDetector 
+                    key={user.id} 
+                    gesture={isTopCard ? gesture : Gesture.Simultaneous()}
                 >
-                    <Card user={user} />
-                </Animated.View>
-            </GestureDetector>
-            );
-          })
+                    <Animated.View 
+                        style={[styles.card, isTopCard && animatedStyle]}                
+                    >
+                        <Card user={user} />
+                    </Animated.View>
+                </GestureDetector>
+                );
+            })
         }             
     </View>
   );
@@ -116,16 +127,36 @@ const styles = StyleSheet.create({
     alignItems: 'center', 
     flex: 1
   },
+  header: {
+    backgroundColor: Colors.blue, 
+    flexDirection: 'row', 
+    alignItems: 'center', 
+    justifyContent: 'center',
+    position: 'relative', 
+    width: '100%', 
+    height: '10%', 
+  },
+  logo:{
+    width: 70, 
+    height: 40, 
+    position: 'absolute',
+    left: 16, 
+  },
+  headerText: {
+    fontSize: 20, 
+    fontWeight: 'bold', 
+    color: Colors.white, 
+  }, 
   profileButton: {
     position: 'absolute', 
     top: 40, 
     right: 20, 
-    backgroundColor: '#007AFF', 
+    backgroundColor: Colors.blue, 
     padding: 10, 
     borderRadius: 20, 
   }, 
   profileButtonText:{
-    color: 'white', 
+    color: Colors.white, 
     fontWeight: 'bold', 
   }, 
   card: {
@@ -157,13 +188,13 @@ const styles = StyleSheet.create({
   },
   name:{                      //Styles the name
     fontSize: 30, 
-    color: 'white', 
+    color: Colors.white, 
     fontWeight: 'bold', 
     marginBottom: 5, 
   }, 
   bio: {                      //Styles the bio
     fontSize: 15, 
-    color: 'white', 
+    color: Colors.white, 
     lineHeight: 22, 
   },
 });
