@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
   }, 
   card: {
     width: '90%',             //% of screen that pic takes up 
-    height: '700%',
+    height: '50%',
     borderRadius: 15,         //corner curvature
     shadowColor: "#000",      //shadow (react native shadow generator)
     shadowOffset: {

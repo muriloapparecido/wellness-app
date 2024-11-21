@@ -1,7 +1,11 @@
 import React, {useState} from 'react'; 
 import { View, StyleSheet, Text, TextInput, Button, Alert} from 'react-native';
+import {useNavigation} from '@react-navigation/native'; 
+
 
 const ProfileScreen = () => {
+    //Navigation
+    const navigation = useNavigation<any>(); 
     //User Information
     const [name, setName] = useState('John Doe');   //default name
     const [bio, setBio] = useState('blah blah blah blah blah blah'); //default bio
@@ -39,6 +43,12 @@ const ProfileScreen = () => {
 
             {/* Save Button */}
             <Button title="Save Change" onPress={handleSave} color='#007AFF' />
+
+            {/* Go to Home Screen */}
+            <Button 
+             title="Go back to GymPal" 
+             onPress={() => navigation.navigate('Home')}  //Navigate to Profile screen
+    />
         </View>
     );
 };
