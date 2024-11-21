@@ -86,7 +86,7 @@ type User = {
 
     {/* Render cards */}
     {users
-      .slice(0,2) //Only render the top two cards
+      .slice(0,1) //Only render the top two cards
       .reverse()  //Reverse to show top card last
       .map((user,index) => {
         if (index< userIndex.value) return null; //skips cards that have been swiped
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
   }, 
   card: {
     width: '90%',             //% of screen that pic takes up 
-    height: '50%',
+    height: '80%',
     borderRadius: 15,         //corner curvature
     shadowColor: "#000",      //shadow (react native shadow generator)
     shadowOffset: {
