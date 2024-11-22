@@ -62,16 +62,16 @@ type User = {
 
     return (
         <View style={styles.card}>
-            <ImageBackground        //Use to add text on top of pic
+            <ImageBackground            //Use to add text on top of pic
                 source={{uri: image}}
                 style={styles.image}
                 imageStyle={styles.imageBorder}
                 >
-                <View style={styles.cardInner}>                         {/* Add margins */}
-                    <Text style={styles.name}>{name}</Text>             {/*curly brackets to use variable*/}
+                <View style={styles.cardInner}>                         
+                    <Text style={styles.name}>{name}</Text>             
                     <Text style={styles.bio}>{bio}</Text>
                 </View>
-            </ImageBackground>       {/*Can now add anything I want on top of pic */}
+            </ImageBackground>       
         </View>
     );
 };
@@ -116,7 +116,7 @@ type User = {
             <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
                 <Image source={require('../../assets/images/profile.png')} style={styles.icon} />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate('Chat')}>
+            <TouchableOpacity onPress={() => navigation.navigate('Match')}>
                 <Image source={require('../../assets/images/chat.png')} style={styles.icon} />
             </TouchableOpacity>
         </View>             

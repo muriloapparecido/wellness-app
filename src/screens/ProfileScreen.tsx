@@ -1,5 +1,6 @@
 import React, {useState} from 'react'; 
 import { View, StyleSheet, Text, TextInput, Button, Alert, TouchableOpacity, Image} from 'react-native';
+import{ launchImageLibrary} from 'react-native-image-picker';
 import {useNavigation} from '@react-navigation/native';
 import { Colors } from '../styling/colors'; 
 
@@ -13,7 +14,7 @@ const ProfileScreen = () => {
     const [bio, setBio] = useState('I want to get into shape'); //default bio
     const [height, setHeight] = useState("5'6");   //default height
     const [weight, setWeight] = useState('130 lbs') //default weight
-    const [age, setAge] = useState('20');   //default age
+    const [image, setImage] = useState<string | null>(null); //default profile image
 
     //saves the profile
     const handleSave =() =>{
@@ -24,6 +25,29 @@ const ProfileScreen = () => {
             {text: 'OK', onPress: () => console.log('Profile saved')}, 
         ]); 
     }; 
+
+    const changePhoto = () => {
+        launchImageLibrary(
+            {
+                mediaType: 'photo', 
+                quality: 0.8, 
+            }, 
+            (response) => {
+                if(response.didCancel){
+                    console.log('User cancelled image picker'); 
+                } else if (response.assets && response.assets.length > 0) {
+                    const selectedImage = response.assets[0]?.uri; 
+                     if (selectedImage){
+                        setImage(selectedImage);     //update profile picture
+                     }  else{
+                        console.error("No image URI returned from picker"); 
+                     } 
+                } else if (response.errorMessage) {
+                    console.error("ImagePicker Error: ", response.errorMessage);
+                }
+            }
+        )
+    }
     
     return (
         <View style={styles.container}>
@@ -36,7 +60,16 @@ const ProfileScreen = () => {
                 <Text style={styles.headerText}>Edit Profile</Text>   
             </View>
 
+            {/* Form Section */}
             <View style={styles.formContainer}>
+                {/* Profile Image */}
+                <TouchableOpacity style={styles.profileImageContainer}>
+                    <Image
+                        source={require('../../assets/images/profile.png')} // Placeholder profile image
+                        style={styles.profileImage}
+                    />
+                    <Text style={styles.changePhotoText}>Change Photo</Text>
+                </TouchableOpacity>
                 {/* Name Input */}
                 <Text style={styles.label}>Name</Text>
                 <TextInput
@@ -55,6 +88,24 @@ const ProfileScreen = () => {
                 placeholder='What are your fitness goals'
                 multiline     //allow multiple lines
                 numberOfLines={4} //suggest 4 lines of text
+                />
+
+                {/* Height Input */}
+                <Text style={styles.label}>Height</Text>
+                <TextInput
+                  style={styles.input}
+                  value={height}
+                  onChangeText={setHeight}
+                  placeholder="Enter your height (e.g. 5'6)"
+                />
+
+                {/* Weight Input */}
+                <Text style={styles.label}>Weight</Text>
+                <TextInput
+                  style={styles.input}
+                  value={weight}
+                  onChangeText={setWeight}
+                  placeholder="Enter your weight (e.g. 130 lbs)"
                 />
 
                 {/* Save Button */}
@@ -98,7 +149,21 @@ const styles = StyleSheet.create({
     },
     formContainer: {
         flex: 1, 
-        padding: 20, 
+        padding: 15, 
+    },
+    profileImageContainer:{
+        alignItems: 'center', 
+    },
+    profileImage: {
+        width: 80, 
+        height: 80, 
+        borderRadius: 50, 
+        backgroundColor: Colors.grey, 
+    },
+    changePhotoText: {
+        color: Colors.blue, 
+        fontSize: 14, 
+        fontWeight: '500', 
     },
     label: {
         fontSize: 16, 
@@ -111,12 +176,12 @@ const styles = StyleSheet.create({
         borderColor: '#ccc', 
         borderWidth: 1,
         borderRadius: 8, 
-        padding: 10, 
+        padding: 8, 
         marginBottom: 20, 
         fontSize: 16,  
     },
     goalsInput: {
-        height: 100, 
+        height: 50, 
         textAlignVertical: 'top', 
     }, 
     navBar: {
@@ -127,8 +192,8 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '15%', 
         position: 'absolute', 
-        bottom: 0,
         paddingHorizontal: 40, 
+        bottom: -30, 
       },
     logo:{
         width: 70, 

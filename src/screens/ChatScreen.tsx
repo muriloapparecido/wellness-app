@@ -1,91 +1,196 @@
 import React, {useState} from 'react'; 
-import { View, StyleSheet, Text, TextInput, Button, Alert} from 'react-native';
+import { View, StyleSheet, Text, TextInput, FlatList, TouchableOpacity, Image} from 'react-native';
 import {useNavigation} from '@react-navigation/native'; 
+import { Colors } from '../styling/colors';
 
 
-const ProfileScreen = () => {
-    //Navigation
+const ChatScreen = () => {
     const navigation = useNavigation<any>(); 
-    //User Information
-    const [name, setName] = useState('John Doe');   //default name
-    const [bio, setBio] = useState('blah blah blah blah blah blah'); //default bio
 
-    //saves the profile
-    const handleSave =() =>{
-        Alert.alert('Profile Update', 'Name: ${name}\nBio: ${bio}', [
-            {text: 'OK', onPress: () => console.log('Profile saved')}, 
-        ]); 
-    }; 
+    //state to hold messages
+    const [messages, setMessages] = useState([
+        {id: '1', text: 'Hey there!', sender: 'other' },
+        {id: '2', text: 'Hi! How are you', sender: 'me'},
+    ]);
     
-    return (
-        <View style={styles.container}>
-            <Text style={styles.header}>Edit Profile</Text>
+    const [newMessage, setNewMessage] = useState('');
 
-            {/* Name Input */}
-            <Text style={styles.label}>Name</Text>
-            <TextInput
-              style={styles.input}  
-              value={name}                  //input value to state
-              onChangeText={setName}        //update state on input change
-              placeholder='Enter your name'
-            />
+    // Handle sending a message
+    const sendMessage = () => {
+        if (newMessage.trim()) {
+            setMessages((prevMessages) => [
+                ...prevMessages,
+                {id: Date.now().toString(), text: newMessage, sender: 'me'},
+            ]);
+        }
+    };
 
-            {/* Bio Input */}
-            <Text style={styles.label}>Edit Bio</Text>
-            <TextInput
-              style={[styles.input, styles.bioInput]}
-              value={bio}                   //input value to state
-              onChangeText={setBio}         //update state on input change
-              placeholder='What do you want your potential gym partner to know'
-              multiline     //allow multiple lines
-              numberOfLines={4} //suggest 4 lines of text
-            />
+    // Render a single chat message
+    type Message = {
+        id: string, 
+        text: string, 
+        sender: string, 
+    }
 
-            {/* Save Button */}
-            <Button title="Save Change" onPress={handleSave} color='#007AFF' />
-
-            {/* Go to Home Screen */}
-            <Button 
-             title="Go back to GymPal" 
-             onPress={() => navigation.navigate('Home')}  //Navigate to Profile screen
-    />
+    const renderMessage = ({ item } : { item: Message}) => (
+        <View 
+        style={[
+            styles.messageContainer, 
+            item.sender == 'me' ? styles.myMessage : styles.otherMessage, 
+        ]}
+        >
+            <Text style={styles.messageText}>{item.text}</Text>
         </View>
+    );
+
+    return(
+        <View style={styles.container}>
+            {/* Header */}
+            <View style={styles.header}>
+                <Image
+                source={require('../../assets/images/umich-logo.png')}
+                style={styles.logo}
+                />
+                <Text style={styles.headerText}>Chat</Text>
+            </View>
+            
+            {/* Chat Messges List */}
+            <FlatList
+                data={messages}
+                renderItem={renderMessage}
+                keyExtractor={(item) => item.id}
+                contentContainerStyle={styles.chatContainer}
+            />
+
+            {/* Message Input Box */}
+            <View style={styles.inputContainer}>
+                <TextInput
+                    style={styles.input}
+                    value={newMessage}
+                    onChangeText={setNewMessage}
+                    placeholder="Type a message..."
+                />
+                <TouchableOpacity style={styles.sendButton} onPress={sendMessage}>
+                    <Image 
+                        source={require('../../assets/images/send.png')}
+                        style={styles.sendIcon}
+                    />
+                </TouchableOpacity>
+            </View>
+
+            {/* Navigation Bar */}
+            <View style={styles.navBar}>
+                <TouchableOpacity onPress = {() => navigation.navigate('Home')}>
+                    <Image source={require('../../assets/images/home.png')} style={styles.icon}/>
+                </TouchableOpacity>
+                <TouchableOpacity onPress ={() => navigation.navigate('Profile')}>
+                    <Image source={require('../../assets/images/profile.png')} style={styles.icon}/>
+                </TouchableOpacity>
+            </View>
+        </View>
+
     );
 };
 
 const styles = StyleSheet.create({
     container: {
         flex: 1, 
-        backgroundColor: '#f8f8f8',
-        padding: 20,
+        backgroundColor: Colors.white,
     },
     header: {
-        fontSize: 24, 
+        backgroundColor: Colors.blue, 
+        flexDirection: 'row', 
+        alignItems: 'center', 
+        justifyContent: 'center',
+        position: 'relative', 
+        width: '100%', 
+        height: '13%', 
+    },
+    headerText: {
+        fontSize: 20, 
+        color: Colors.white,
         fontWeight: 'bold', 
         marginBottom: 20, 
+        top: 15, 
         textAlign: 'center', 
     },
-    label: {
-        fontSize: 16, 
-        fontWeight: '500', 
-        marginBottom: 8, 
-        color: '#333', 
+    chatContainer: {
+        padding: 10,
     }, 
-    input: {
-        backgroundColor: 'white', 
-        borderColor: '#ccc', 
-        borderWidth: 1,
-        borderRadius: 8, 
+    messageContainer: {
+        marginVertical: 5, 
         padding: 10, 
-        marginBottom: 20, 
-        fontSize: 16,  
+        borderRadius: 10, 
+        maxWidth: '75%',
     },
-    bioInput: {
-        height: 100, 
-        textAlignVertical: 'top', 
+    myMessage: {
+        backgroundColor: Colors.maize, 
+        alignSelf: 'flex-end', 
+    },
+    otherMessage: {
+        backgroundColor: Colors.darkGrey, 
+        alignSelf: 'flex-start', 
+    },
+    messageText: {
+        fontSize: 16, 
+        color: Colors.black, 
     }, 
+    inputContainer: {
+        flexDirection: 'row', 
+        alignItems: 'center', 
+        padding: 10, 
+        bottom: 65,
+        borderTopWidth: 1, 
+        borderTopColor: Colors.grey, 
+    },
+    input: {
+        flex: 1, 
+        height: 40, 
+        borderColor: Colors.grey, 
+        borderWidth: 1, 
+        borderRadius: 20, 
+        paddingHorizontal: 10, 
+        backgroundColor: Colors.white, 
+    },
+    sendButton: {
+        marginLeft: 10, 
+        backgroundColor: Colors.blue, 
+        borderRadius: 20, 
+        padding: 10,
+    },
+    sendIcon: {
+        width: 20, 
+        height: 20, 
+        tintColor: Colors.darkGrey, 
+        right: 1, 
+    },
+    navBar: {
+        flexDirection: 'row', 
+        justifyContent: 'space-between',
+        alignItems: 'center', 
+        backgroundColor: Colors.blue,
+        width: '100%',
+        height: '15%', 
+        position: 'absolute', 
+        paddingHorizontal: 40, 
+        bottom: -30, 
+    },
+    logo:{
+        width: 70, 
+        height: 40, 
+        position: 'absolute',
+        left: 16, 
+        bottom: 15,
+    },
+      icon: {
+        width: 60, 
+        height: 60, 
+        left: 0, 
+        bottom: 15, 
+        backgroundColor: Colors.maize, 
+      },
 }); 
 
 
-export default ProfileScreen; 
+export default ChatScreen; 
 
