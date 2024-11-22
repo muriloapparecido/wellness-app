@@ -1,12 +1,12 @@
 import React from 'react'; 
-import { View, StyleSheet, Text, Dimensions, ImageBackground, Button, Image, TouchableOpacity} from 'react-native';     //component path
+import { View, StyleSheet, Text, Dimensions, ImageBackground, Image, TouchableOpacity} from 'react-native';     //component path
 import users from '../../assets/data/users.js';           //dummy data
 import Animated, {
   useSharedValue,         //Shared value to track animated state
   useAnimatedStyle,       //Hook to create animated styles
   withSpring,             //Spring for smooth transitions
 } from 'react-native-reanimated'
-import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native'; 
 import { Colors } from '../styling/colors'; 
 
