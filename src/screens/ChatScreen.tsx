@@ -4,8 +4,9 @@ import {useNavigation} from '@react-navigation/native';
 import { Colors } from '../styling/colors';
 
 
-const ChatScreen = () => {
+const ChatScreen = ({route} : { route: any}) => {
     const navigation = useNavigation<any>(); 
+    const { match } = route.params; 
 
     //state to hold messages
     const [messages, setMessages] = useState([
@@ -47,11 +48,11 @@ const ChatScreen = () => {
         <View style={styles.container}>
             {/* Header */}
             <View style={styles.header}>
-                <Image
-                source={require('../../assets/images/umich-logo.png')}
-                style={styles.logo}
+                <Image 
+                    source={match.avatar}
+                    style={styles.logo}
                 />
-                <Text style={styles.headerText}>Chat</Text>
+                <Text style={styles.headerText}>{match.name}</Text>
             </View>
             
             {/* Chat Messges List */}
@@ -75,16 +76,6 @@ const ChatScreen = () => {
                         source={require('../../assets/images/send.png')}
                         style={styles.sendIcon}
                     />
-                </TouchableOpacity>
-            </View>
-
-            {/* Navigation Bar */}
-            <View style={styles.navBar}>
-                <TouchableOpacity onPress = {() => navigation.navigate('Home')}>
-                    <Image source={require('../../assets/images/home.png')} style={styles.icon}/>
-                </TouchableOpacity>
-                <TouchableOpacity onPress ={() => navigation.navigate('Profile')}>
-                    <Image source={require('../../assets/images/profile.png')} style={styles.icon}/>
                 </TouchableOpacity>
             </View>
         </View>
@@ -139,7 +130,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row', 
         alignItems: 'center', 
         padding: 10, 
-        bottom: 65,
         borderTopWidth: 1, 
         borderTopColor: Colors.grey, 
     },

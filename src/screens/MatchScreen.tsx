@@ -35,7 +35,7 @@ const MatchListScreen = () => {
   const renderMatch = ({ item }: { item: Match }) => (
     <TouchableOpacity
       style={styles.matchContainer}
-      onPress={() => navigation.navigate('ChatScreen', { match: item })}
+      onPress={() => navigation.navigate('Chat', { match: item })}
     >
       <Image source={item.avatar} style={styles.avatar} />
       <Text style={styles.matchName}>{item.name}</Text>
@@ -49,11 +49,10 @@ const MatchListScreen = () => {
                 <Image
                 source={require('../../assets/images/umich-logo.png')}
                 style={styles.logo}
-                />
-                <Text style={styles.headerText}>Chat</Text>
+                /> 
+                <Text style={styles.headerText}>Your Matches</Text>
             </View>
 
-      <Text style={styles.headerText}>Your Matches</Text>
       <FlatList
         data={matches}
         renderItem={renderMatch}

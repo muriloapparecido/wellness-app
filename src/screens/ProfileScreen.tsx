@@ -117,7 +117,7 @@ const ProfileScreen = () => {
                 <TouchableOpacity onPress={() => navigation.navigate('Home')}>
                     <Image source={require('../../assets/images/home.png')} style={styles.icon} />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate('Chat')}>
+                <TouchableOpacity onPress={() => navigation.navigate('Match')}>
                     <Image source={require('../../assets/images/chat.png')} style={styles.icon} />
                 </TouchableOpacity>
             </View>   

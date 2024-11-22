@@ -4,6 +4,7 @@ import {createStackNavigator} from '@react-navigation/stack';   //Stack navigato
 import HomeScreen from './src/screens/HomeScreen';  //import HomeScreen component
 import ProfileScreen from './src/screens/ProfileScreen';  //import ProfileScreen component
 import MatchScreen from './src/screens/MatchScreen';
+import ChatScreen from './src/screens/ChatScreen'; 
 import{SafeAreaProvider} from 'react-native-safe-area-context'; 
 
 const Stack = createStackNavigator(); 
@@ -27,6 +28,10 @@ const App = () => {
             name="Match"
             component={MatchScreen}
             options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="Chat"
+            component={ChatScreen}
           />
         </Stack.Navigator>
       </NavigationContainer>
