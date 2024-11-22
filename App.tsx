@@ -3,6 +3,7 @@ import {NavigationContainer} from "@react-navigation/native";   //Navigation con
 import {createStackNavigator} from '@react-navigation/stack';   //Stack navigator for screen transitions
 import HomeScreen from './src/screens/HomeScreen';  //import HomeScreen component
 import ProfileScreen from './src/screens/ProfileScreen';  //import ProfileScreen component
+import ChatScreen from './src/screens/ChatScreen';
 import{SafeAreaProvider} from 'react-native-safe-area-context'; 
 
 const Stack = createStackNavigator(); 
@@ -20,6 +21,11 @@ const App = () => {
           <Stack.Screen
             name="Profile"
             component={ProfileScreen}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="Chat"
+            component={ChatScreen}
             options={{headerShown: false}}
           />
         </Stack.Navigator>

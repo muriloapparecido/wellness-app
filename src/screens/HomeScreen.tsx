@@ -1,5 +1,5 @@
 import React from 'react'; 
-import { View, StyleSheet, Text, Dimensions, ImageBackground, Button, Image} from 'react-native';     //component path
+import { View, StyleSheet, Text, Dimensions, ImageBackground, Button, Image, TouchableOpacity} from 'react-native';     //component path
 import users from '../../assets/data/users.js';           //dummy data
 import Animated, {
   useSharedValue,         //Shared value to track animated state
@@ -82,18 +82,11 @@ type User = {
         {/* Header */}
         <View style={styles.header}>
             <Image
-              source={require('../styling/umich-logo.png')}
+              source={require('../../assets/images/umich-logo.png')}
               style={styles.logo}
             />
             <Text style={styles.headerText}>GymPal</Text>
         </View>
-
-        {/* Profile button */}
-        <Button 
-        title="Go to Profile" 
-        onPress={() => navigation.navigate('Profile')}  //Navigate to Profile screen
-        color='#02274C'
-        />
 
         {/* Render cards */}
         {users
@@ -116,7 +109,17 @@ type User = {
                 </GestureDetector>
                 );
             })
-        }             
+        }
+
+         {/* Navigation Bar */}
+        <View style={styles.navBar}>
+            <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
+                <Image source={require('../../assets/images/profile.png')} style={styles.icon} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('Chat')}>
+                <Image source={require('../../assets/images/chat.png')} style={styles.icon} />
+            </TouchableOpacity>
+        </View>             
     </View>
   );
 };
@@ -134,36 +137,28 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     position: 'relative', 
     width: '100%', 
-    height: '10%', 
+    height: '13%', 
   },
   logo:{
     width: 70, 
     height: 40, 
     position: 'absolute',
     left: 16, 
+    bottom: 7,
   },
   headerText: {
     fontSize: 20, 
     fontWeight: 'bold', 
     color: Colors.white, 
-  }, 
-  profileButton: {
-    position: 'absolute', 
-    top: 40, 
-    right: 20, 
-    backgroundColor: Colors.blue, 
-    padding: 10, 
-    borderRadius: 20, 
-  }, 
-  profileButtonText:{
-    color: Colors.white, 
-    fontWeight: 'bold', 
+    top: 15, 
   }, 
   card: {
     width: '90%',             //% of screen that pic takes up 
     height: '80%',
     borderRadius: 15,         //corner curvature
     shadowColor: "#000",      //shadow (react native shadow generator)
+    top: 20, 
+    left: 8, 
     shadowOffset: {
       width: 0,
       height: 6,
@@ -196,6 +191,23 @@ const styles = StyleSheet.create({
     fontSize: 15, 
     color: Colors.white, 
     lineHeight: 22, 
+  },
+   navBar: {
+    flexDirection: 'row', 
+    justifyContent: 'space-between',
+    alignItems: 'center', 
+    backgroundColor: Colors.blue,
+    width: '100%',
+    height: '15%', 
+    bottom: 0,
+    paddingHorizontal: 40, 
+  },
+  icon: {
+    width: 60, 
+    height: 60, 
+    left: 0, 
+    bottom: 15, 
+    backgroundColor: Colors.maize, 
   },
 });
 
