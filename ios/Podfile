@@ -23,6 +23,15 @@ target 'wellnessapp' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
+  # Firebase Pods
+  use_modular_headers! # Enable modular headers globally for Firebase dependencies
+  pod 'Firebase/Core', :modular_headers => true
+  pod 'Firebase/Auth', :modular_headers => true
+  pod 'Firebase/Firestore', :modular_headers => true
+  pod 'Firebase/Storage', :modular_headers => true
+  pod 'FirebaseUI'
+  pod 'FirebaseUI/Google'
+
   target 'wellnessappTests' do
     inherit! :complete
     # Pods for testing
